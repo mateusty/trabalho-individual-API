@@ -1,8 +1,7 @@
 package org.serratec.trabalhoIndividual.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import org.serratec.trabalhoIndividual.model.ClienteInput;
 
 import java.util.UUID;
 
@@ -14,23 +13,22 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull
-    @NotBlank
     @Column(nullable = false)
     private String nome;
 
-    @NotNull
-    @NotBlank
     @Column(nullable = false)
     private String telefone;
 
-    @NotNull
-    @NotBlank
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
-    @NotNull
-    @NotBlank
     @Column(nullable = false, unique = true)
     private String email;
+
+    public Cliente(ClienteInput clienteInput) {
+        this.nome = clienteInput.nome();
+        this.telefone = clienteInput.telefone();
+        this.cpf = clienteInput.cpf();
+        this.email = clienteInput.email();
+    }
 }
