@@ -4,25 +4,30 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record ClienteInput(
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ClienteInput {
         @NotNull
         @NotBlank
-        String nome,
+        private String nome;
 
         @NotNull
         @NotBlank
-        String telefone,
+        private String telefone;
 
         @NotNull
         @NotBlank
         @Size(min = 11, max = 11)
-        String cpf,
+        private String cpf;
 
         @NotNull
         @NotBlank
         @Email
-        String email
-) {
+        private String email;
 
 }

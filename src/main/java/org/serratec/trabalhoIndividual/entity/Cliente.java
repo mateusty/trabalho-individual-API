@@ -1,10 +1,16 @@
 package org.serratec.trabalhoIndividual.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.serratec.trabalhoIndividual.model.ClienteInput;
 
 import java.util.UUID;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "cliente")
 public class Cliente {
@@ -26,9 +32,9 @@ public class Cliente {
     private String email;
 
     public Cliente(ClienteInput clienteInput) {
-        this.nome = clienteInput.nome();
-        this.telefone = clienteInput.telefone();
-        this.cpf = clienteInput.cpf();
-        this.email = clienteInput.email();
+        this.nome = clienteInput.getNome();
+        this.telefone = clienteInput.getTelefone();
+        this.cpf = clienteInput.getCpf();
+        this.email = clienteInput.getEmail();
     }
 }
