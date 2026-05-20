@@ -12,22 +12,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClienteInput {
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Nome não pode ser vazio")
         private String nome;
 
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Telefone não pode ser vazio")
+        @Size(min = 11, max = 11, message = "O tamanho do telefone deve ser 11 caracteres")
         private String telefone;
 
-        @NotNull
-        @NotBlank
-        @Size(min = 11, max = 11)
+        @NotBlank(message = "Cpf não pode ser vazio")
+        @Size(min = 11, max = 11, message = "O tamanho do cpf deve ser 11 caracteres")
         private String cpf;
 
-        @NotNull
-        @NotBlank
-        @Email
+        @NotBlank(message = "Email não pode ser vazio")
+        @Email(message = "O email deve ser válido")
         private String email;
 
 }

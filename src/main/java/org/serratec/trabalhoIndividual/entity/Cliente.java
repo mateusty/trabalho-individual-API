@@ -1,11 +1,13 @@
 package org.serratec.trabalhoIndividual.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.serratec.trabalhoIndividual.model.ClienteInput;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -22,7 +24,7 @@ public class Cliente {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String telefone;
 
     @Column(nullable = false, unique = true, length = 11)
@@ -30,6 +32,10 @@ public class Cliente {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Veiculo> veiculos;
 
     public Cliente(ClienteInput clienteInput) {
         this.nome = clienteInput.getNome();

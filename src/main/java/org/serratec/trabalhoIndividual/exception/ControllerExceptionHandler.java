@@ -1,7 +1,7 @@
 package org.serratec.trabalhoIndividual.exception;
 
-import org.hibernate.annotations.NotFound;
 import org.serratec.trabalhoIndividual.model.ErrorResponse;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
@@ -27,6 +28,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return super.handleExceptionInternal(ex, new ErrorResponse(errors, LocalDateTime.now()), headers, status, request);
     }
 
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(List.of(getMessageDetails(ex)), LocalDateTime.now()));
+    }
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
         ErrorResponse error = new ErrorResponse(
@@ -34,5 +41,24 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 LocalDateTime.now()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    private String getMessageDetails(DataIntegrityViolationException ex) {
+        String mensagem = "";
+
+        if(ex.getRootCause() != null) {
+            mensagem = ex.getRootCause().getMessage();
+        }
+
+        if(mensagem.contains("email")) {
+            return "Este email já está em uso";
+        }
+        else if(mensagem.contains("cpf")) {
+            return "Este cpf já está em uso";
+        }
+        else if(mensagem.contains("telefone")) {
+            return "Este telefone já está em uso";
+        }
+        return "Há uma violação de integridade dos dados na requisição";
     }
 }
