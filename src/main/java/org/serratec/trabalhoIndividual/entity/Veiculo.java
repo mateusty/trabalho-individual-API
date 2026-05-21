@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cliente")
+@Table(name = "veiculo")
 public class Veiculo {
 
     @Id
@@ -42,7 +42,7 @@ public class Veiculo {
     @Column(nullable = false)
     private Double maximoDesconto;
 
-    @Column(nullable = false)
+    @Column
     private Boolean vendido;
 
     @Column

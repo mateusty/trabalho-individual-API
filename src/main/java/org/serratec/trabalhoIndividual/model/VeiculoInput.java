@@ -28,7 +28,7 @@ public class VeiculoInput {
     private Integer ano;
 
     @NotNull(message = "Valor não pode ser nulo")
-    @Min(value = 1, message = "Valor deve ser ou igual à 1")
+    @Min(value = 1, message = "Valor deve ser maior ou igual à 1")
     private Double valor;
 
     @NotBlank(message = "Placa não pode ser vazia")

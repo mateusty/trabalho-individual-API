@@ -1,7 +1,6 @@
 package org.serratec.trabalhoIndividual.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,10 +29,11 @@ public class VeiculoUpdateInput {
     private Double valorVenda;
 
     @AssertTrue(message = "Valor venda não pode ser nulo caso vendido for verdadeiro")
-    @JsonIgnore
-    public boolean valorVendaValidation() {
-        if (getVendido() && valorVenda == null) {
-            return false;
+    public boolean isValorVendaValid() {
+        if (getVendido()) {
+            if (valorVenda == null) {
+                return false;
+            }
         }
         return true;
     }

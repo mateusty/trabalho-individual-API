@@ -49,6 +49,10 @@ public class VeiculoService {
             List<Veiculo> veiculosModelo = this.veiculoRepository.findByModelo(modelo);
             veiculos.addAll(veiculosModelo);
         }
+        if(!(temPlaca && temMarca && temModelo)) {
+            List<Veiculo> todosVeiculos = this.veiculoRepository.findAll();
+            veiculos.addAll(todosVeiculos);
+        }
 
         if(veiculos.isEmpty()) {
             List<String> msg = new ArrayList<>();
