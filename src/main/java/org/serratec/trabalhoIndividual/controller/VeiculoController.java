@@ -3,6 +3,7 @@ package org.serratec.trabalhoIndividual.controller;
 import jakarta.validation.Valid;
 import org.serratec.trabalhoIndividual.entity.Veiculo;
 import org.serratec.trabalhoIndividual.model.VeiculoInput;
+import org.serratec.trabalhoIndividual.model.VeiculoResponse;
 import org.serratec.trabalhoIndividual.model.VeiculoUpdateInput;
 import org.serratec.trabalhoIndividual.service.VeiculoService;
 import org.springframework.http.HttpStatus;
@@ -29,9 +30,9 @@ public class VeiculoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Veiculo>> getVeiculo(@RequestParam(required = false) String placa,
-                                                    @RequestParam(required = false) String marca,
-                                                    @RequestParam(required = false) String modelo) {
+    public ResponseEntity<List<VeiculoResponse>> getVeiculo(@RequestParam(required = false) String placa,
+                                                            @RequestParam(required = false) String marca,
+                                                            @RequestParam(required = false) String modelo) {
         return ResponseEntity.ok(this.veiculoService.getVeiculo(placa, marca, modelo));
     }
 

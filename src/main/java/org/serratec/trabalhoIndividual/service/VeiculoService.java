@@ -4,6 +4,7 @@ import org.serratec.trabalhoIndividual.entity.Cliente;
 import org.serratec.trabalhoIndividual.entity.Veiculo;
 import org.serratec.trabalhoIndividual.exception.NotFoundException;
 import org.serratec.trabalhoIndividual.model.VeiculoInput;
+import org.serratec.trabalhoIndividual.model.VeiculoResponse;
 import org.serratec.trabalhoIndividual.model.VeiculoUpdateInput;
 import org.serratec.trabalhoIndividual.repository.ClienteRepository;
 import org.serratec.trabalhoIndividual.repository.VeiculoRepository;
@@ -31,11 +32,12 @@ public class VeiculoService {
         this.veiculoRepository.save(new Veiculo(veiculoInput, cliente));
     }
 
-    public List<Veiculo> getVeiculo(String placa, String marca, String modelo) {
+    public List<VeiculoResponse> getVeiculo(String placa, String marca, String modelo) {
         boolean temPlaca = placa != null && !placa.isBlank();
         boolean temMarca = marca != null && !marca.isBlank();
         boolean temModelo = modelo != null && !modelo.isBlank();
         List<Veiculo> veiculos = new ArrayList<>();
+        List<VeiculoResponse> veiculosResponse = new ArrayList<>();
 
         if(temPlaca) {
             List<Veiculo> veiculosPlaca = this.veiculoRepository.findByPlaca(placa);
@@ -69,7 +71,10 @@ public class VeiculoService {
                     String.join(" : ", msg)
             );
         }
-        return veiculos;
+        for(Veiculo veiculo : veiculos) {
+            veiculosResponse.add(new VeiculoResponse(veiculo));
+        }
+        return veiculosResponse;
     }
 
     public void putVeiculo(UUID id, VeiculoUpdateInput veiculo) {
