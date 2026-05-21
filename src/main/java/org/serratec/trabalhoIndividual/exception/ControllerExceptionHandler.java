@@ -15,15 +15,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+        String errors = ex.getBindingResult().getFieldErrors().stream()
                 .map(field -> field.getDefaultMessage())
-                .toList();
+                .collect(Collectors.joining(" : "));
 
         return super.handleExceptionInternal(ex, new ErrorResponse(errors, LocalDateTime.now()), headers, status, request);
     }
@@ -31,13 +32,13 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(List.of(getMessageDetails(ex)), LocalDateTime.now()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(getMessageDetails(ex), LocalDateTime.now()));
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
         ErrorResponse error = new ErrorResponse(
-                ex.getErros(),
+                ex.getMessage(),
                 LocalDateTime.now()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);

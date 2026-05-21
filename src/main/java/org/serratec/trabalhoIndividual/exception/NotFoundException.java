@@ -4,14 +4,9 @@ import java.util.List;
 
 public class NotFoundException extends RuntimeException {
 
-    private final List<String> erros;
+    private String message;
 
-    public NotFoundException(List<String> erros) {
-        super(String.join(", ", erros));
-        this.erros = erros;
-    }
-
-    public List<String> getErros() {
-        return erros;
+    public NotFoundException(String message) {
+        super(message);
     }
 }

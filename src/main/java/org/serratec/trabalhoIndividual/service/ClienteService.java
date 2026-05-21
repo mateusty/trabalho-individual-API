@@ -12,7 +12,7 @@ import java.util.UUID;
 @Service
 public class ClienteService {
 
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
 
     public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
@@ -29,21 +29,21 @@ public class ClienteService {
         if(temCpf && temNome) {
             List<Cliente> clientes = this.clienteRepository.findByCpfAndNome(cpf, nome);
             if (clientes.isEmpty()) {
-                throw new NotFoundException(List.of("Não existe um cliente com o cpf " + cpf + " e nome " + nome));
+                throw new NotFoundException("Não existe um cliente com o cpf " + cpf + " e nome " + nome);
             }
             return clientes;
         }
         else if (temCpf) {
             List<Cliente> clientes = this.clienteRepository.findByCpf(cpf);
             if(clientes.isEmpty()) {
-                throw new NotFoundException(List.of("Não existe um cliente com o cpf: " + cpf));
+                throw new NotFoundException("Não existe um cliente com o cpf: " + cpf);
             }
             return clientes;
         }
         else if (temNome) {
             List<Cliente> clientes = this.clienteRepository.findByNome(nome);
             if(clientes.isEmpty()) {
-                throw new NotFoundException(List.of("Não existe um cliente com o nome: " + nome));
+                throw new NotFoundException("Não existe um cliente com o nome: " + nome);
             }
             return clientes;
         }
@@ -55,7 +55,7 @@ public class ClienteService {
             this.clienteRepository.deleteById(id);
         }
         else {
-            throw new NotFoundException(List.of("Cliente com o id " + id + " Não encontrado"));
+            throw new NotFoundException("Cliente com o id " + id + " Não encontrado");
         }
     }
 }
