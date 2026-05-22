@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VeiculoUpdateInput {
 
+    @Size(min = 1, message = "Marca não pode ser vazia")
     private String marca;
 
+    @Size(min = 1, message = "Modelo não pode ser vazio")
     private String modelo;
 
     @Min(value = 1900, message = "Ano deve ser maior ou igual à 1900")

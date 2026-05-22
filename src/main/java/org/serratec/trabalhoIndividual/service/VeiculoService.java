@@ -31,7 +31,7 @@ public class VeiculoService {
                                 .orElseThrow(() -> new NotFoundException("Não existe um cliente com o id " + veiculoInput.getClienteId()));
         this.veiculoRepository.save(new Veiculo(veiculoInput, cliente));
     }
-
+    
     public List<VeiculoResponse> getVeiculo(String placa, String marca, String modelo) {
         boolean temPlaca = placa != null && !placa.isBlank();
         boolean temMarca = marca != null && !marca.isBlank();
@@ -54,6 +54,18 @@ public class VeiculoService {
         if(!(temPlaca && temMarca && temModelo)) {
             List<Veiculo> todosVeiculos = this.veiculoRepository.findAll();
             veiculos.addAll(todosVeiculos);
+        }
+
+        for(Veiculo veiculo : veiculos) {
+            if(temPlaca && !veiculo.getPlaca().equals(placa)) {
+                veiculos.remove(veiculo);
+            }
+            else if(temMarca && !veiculo.getMarca().equals(marca)) {
+                veiculos.remove(veiculo);
+            }
+            else if(temModelo && !veiculo.getModelo().equals(marca)) {
+                veiculos.remove(veiculo);
+            }
         }
 
         if(veiculos.isEmpty()) {
